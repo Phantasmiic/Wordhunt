@@ -27,6 +27,31 @@ docker compose up --build
 - Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:8000/api`
 
+## Expose to Web (Cloudflare Tunnel)
+Use a Cloudflare quick tunnel to share the app with your phone or remote testers.
+
+1. Start the app:
+```bash
+docker compose up --build
+```
+
+2. Install cloudflared (one-time):
+```bash
+brew install cloudflared
+```
+
+3. Start the tunnel in a separate terminal:
+```bash
+cloudflared tunnel --url http://localhost:5173
+```
+
+4. Open the generated `https://<name>.trycloudflare.com` URL on your phone.
+
+Notes:
+- Keep both `docker compose` and `cloudflared` running while testing.
+- Quick Tunnel URLs are temporary and usually change when `cloudflared` restarts.
+- For a stable URL, use a named Cloudflare Tunnel with your own domain.
+
 ## Backend Tests
 ```bash
 docker compose run --rm backend python manage.py test
